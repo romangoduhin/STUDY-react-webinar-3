@@ -1,5 +1,3 @@
-import {getRandomNumber} from "./utils";
-
 /**
  * Хранилище состояния приложения
  */
@@ -7,6 +5,7 @@ class Store {
   constructor(initState = {}) {
     this.state = initState;
     this.listeners = []; // Слушатели изменений состояния
+    this.counter = this.state.list.length;
   }
 
   /**
@@ -44,9 +43,11 @@ class Store {
    * Добавление новой записи
    */
   addItem() {
+    this.counter++;
+
     this.setState({
       ...this.state,
-      list: [...this.state.list, {code: getRandomNumber(), title: 'Новая запись', selectedCount: 0}]
+      list: [...this.state.list, {code: this.counter, title: 'Новая запись', selectedCount: 0}]
     })
   };
 
