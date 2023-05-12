@@ -26,3 +26,9 @@ export function createElement(name, props = {}, ...children) {
 
   return element;
 }
+
+// понимаю что большие числа не надо, но это хороший способ получить действительно уникальное значение
+// реализовавывая это не через сам store, а через функцию "генератор"
+export function getRandomNumber(){
+  return Date.now();
+}
