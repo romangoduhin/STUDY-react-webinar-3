@@ -69,10 +69,10 @@ class Store {
     this.setState({
       ...this.state,
       list: this.state.list.map(item => {
-        item.selected = false;
-
         if (item.code === code) {
           item.selected = !item.selected;
+        } else {
+          item.selected = false;
         }
         return item;
       })
