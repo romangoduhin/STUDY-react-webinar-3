@@ -1,30 +1,34 @@
 import React from "react";
 import PropTypes from "prop-types";
 import './style.css';
-import {RUBLE_CODE} from "../../constants";
+import {RUBLE_CODE, UNIT} from "../../constants";
 import {cn as bem} from "@bem-react/classname";
 import Price from "./price";
+import Counter from "./counter";
 
-function Item({item, onAdd}) {
+function Item({item, buttonText, onClick}) {
   const cn = bem('Item');
 
   const callbacks = {
-    onAdd: (e) => {
+    onClick: (e) => {
       e.stopPropagation();
-      onAdd(item);
+      onClick(item);
     }
   }
 
   return (
-    <div className={cn()} onClick={callbacks.onClick}>
+    <div className={cn()}>
       <div className={cn('code')}>{item.code}</div>
       <div className={cn('title')}>
         <span>{item.title}</span>
-        <Price amount={item.price} currency={RUBLE_CODE}/>
+        <div className={cn('info')}>
+          <Price amount={item.price} currency={RUBLE_CODE}/>
+          {item.count && <Counter count={item.count} unit={UNIT}/>}
+        </div>
       </div>
       <div className={cn('actions')}>
-        <button onClick={callbacks.onAdd}>
-          Добавить
+        <button onClick={callbacks.onClick}>
+          {buttonText}
         </button>
       </div>
     </div>
@@ -37,12 +41,8 @@ Item.propTypes = {
     title: PropTypes.string,
     count: PropTypes.number
   }).isRequired,
-  onAdd: PropTypes.func,
-};
-
-Item.defaultProps = {
-  onAdd: () => {
-  },
+  buttonText: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default React.memo(Item);

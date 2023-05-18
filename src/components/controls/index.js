@@ -4,24 +4,20 @@ import './style.css';
 import Counter from "./counter";
 import {cn as bem} from "@bem-react/classname";
 
-function Controls({basket}){
+function Controls({totalCount, totalPrice, onClick}) {
   const cn = bem('Controls');
-
-  const itemsAmount = basket.length;
-  const totalPrice = basket.reduce((acc,item) => acc + item.price, 0);
 
   return (
     <div className={cn()}>
-      <Counter itemsAmount={itemsAmount} totalPrice={totalPrice}/>
-      <button onClick={() => onAdd()}>Перейти</button>
+      <Counter totalCount={totalCount} totalPrice={totalPrice}/>
+      <button onClick={onClick}>Перейти</button>
     </div>
   )
 }
 
 Controls.propTypes = {
-    basket: PropTypes.arrayOf(PropTypes.shape({
-    price: PropTypes.number
-  })).isRequired,
+  totalCount: PropTypes.number.isRequired,
+  totalPrice: PropTypes.number.isRequired,
 };
 
 export default React.memo(Controls);

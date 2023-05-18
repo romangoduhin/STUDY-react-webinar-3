@@ -16,6 +16,11 @@
   justify-content: space-between;
 }
 
+.Item-info {
+  display: flex;
+  flex-direction: row;
+}
+
 .Item-actions {
   display: flex;
   justify-content: flex-end;
