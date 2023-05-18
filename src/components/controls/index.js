@@ -1,21 +1,27 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import './style.css';
+import Counter from "./counter";
+import {cn as bem} from "@bem-react/classname";
 
-function Controls({onAdd}){
+function Controls({basket}){
+  const cn = bem('Controls');
+
+  const itemsAmount = basket.length;
+  const totalPrice = basket.reduce((acc,item) => acc + item.price, 0);
+
   return (
-    <div className='Controls'>
-      <button onClick={() => onAdd()}>Добавить</button>
+    <div className={cn()}>
+      <Counter itemsAmount={itemsAmount} totalPrice={totalPrice}/>
+      <button onClick={() => onAdd()}>Перейти</button>
     </div>
   )
 }
 
 Controls.propTypes = {
-  onAdd: PropTypes.func
+    basket: PropTypes.arrayOf(PropTypes.shape({
+    price: PropTypes.number
+  })).isRequired,
 };
-
-Controls.defaultProps = {
-  onAdd: () => {}
-}
 
 export default React.memo(Controls);
