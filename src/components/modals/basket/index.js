@@ -14,8 +14,15 @@ function Basket({data, totalPrice, onClose, onDeleteItem}) {
     <Modal onClose={onClose}>
       <div onClick={e => e.stopPropagation()} className={cn()}>
         <Head title='Корзина' buttonText={"Закрыть"} isButtonVisible={true} onClick={onClose}/>
-        <List list={data} buttonText={"Удалить"} onClick={onDeleteItem}/>
-        <Summary totalPrice={totalPrice}/>
+
+        <div className={cn('content')}>
+          {data.length
+            ? <>
+              <List list={data} buttonText={"Удалить"} onClick={onDeleteItem}/>
+              <Summary totalPrice={totalPrice}/>
+            </>
+            : <div className={cn('empty')}>Пусто</div>}
+        </div>
       </div>
     </Modal>
   );

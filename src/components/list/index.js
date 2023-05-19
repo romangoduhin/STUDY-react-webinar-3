@@ -7,8 +7,6 @@ import './style.css';
 function List({list, buttonText, onClick}) {
   const cn = bem('List');
 
-  if(!list.length) return <div className={cn('empty')}>Пусто</div>
-
   return (
     <div className={cn()}>
       {list.map(item =>
