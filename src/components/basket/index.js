@@ -1,11 +1,12 @@
 import React from "react";
 import './style.css';
-import Modal from "../index";
-import Head from "../../head";
+import Modal from "../modal";
+import Head from "../head";
 import PropTypes from "prop-types";
 import {cn as bem} from "@bem-react/classname";
-import List from "../../list";
+import List from "../list";
 import Summary from "./summary";
+import Item from "./item";
 
 function Basket({data, totalPrice, onClose, onDeleteItem}) {
   const cn = bem('Basket');
@@ -18,7 +19,9 @@ function Basket({data, totalPrice, onClose, onDeleteItem}) {
         <div className={cn('content')}>
           {data.length
             ? <>
-              <List list={data} buttonText={"Удалить"} onClick={onDeleteItem}/>
+              <List list={data} renderItem={({item}) => (
+                <Item item={item} onDelete={onDeleteItem}/>
+              )}/>
               <Summary totalPrice={totalPrice}/>
             </>
             : <div className={cn('empty')}>Пусто</div>}

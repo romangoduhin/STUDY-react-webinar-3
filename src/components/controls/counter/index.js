@@ -4,7 +4,7 @@ import {cn as bem} from "@bem-react/classname";
 import {RUBLE_CODE} from "../../../constants";
 import PropTypes from "prop-types";
 import {plural} from "../../../utils";
-import Price from "../../item/price";
+import Price from "../../price";
 
 function Counter({totalCount, totalPrice}) {
   const cn = bem('Counter');

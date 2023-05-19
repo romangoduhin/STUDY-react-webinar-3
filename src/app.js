@@ -1,9 +1,9 @@
 import React, {useCallback, useState} from 'react';
-import List from "./components/list";
 import Controls from "./components/controls";
 import Head from "./components/head";
 import PageLayout from "./components/page-layout";
-import Basket from "./components/modals/basket";
+import Basket from "./components/basket";
+import ProductList from "./components/product-list";
 
 function App({store}) {
   const {list, basket, totalCount, totalPrice} = store.getState();
@@ -26,7 +26,7 @@ function App({store}) {
     <PageLayout>
       <Head title='Магазин'/>
       <Controls totalCount={totalCount} totalPrice={totalPrice} onClick={callbacks.onToggleModal}/>
-      <List list={list} buttonText="Добавить" onClick={callbacks.onAddItem}/>
+      <ProductList list={list} onAdd={callbacks.onAddItem}/>
       {isModalVisible &&
         <Basket data={basket}
                 totalPrice={totalPrice}
