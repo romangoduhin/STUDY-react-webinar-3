@@ -48,26 +48,13 @@ class Store {
   }
 
   deleteItem(item) {
-    if (item.count === 1 || !item.count) {
       this.setState({
         ...this.state,
         basket: this.state.basket.filter(el => el.code !== item.code)
       })
 
       this.state.totalCount -= 1;
-    } else {
-      this.setState({
-        ...this.state,
-        basket: this.state.basket.map(el => {
-          if (el.code === item.code) {
-            return {...el, count: el.count - 1};
-          }
-          return el
-        })
-      })
-    }
-
-    this.state.totalPrice -= item.price;
+      this.state.totalPrice -= item.price * item.count;
   };
 }
 
