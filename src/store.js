@@ -30,6 +30,8 @@ class Store {
         ...this.state,
         basket: [...this.state.basket, {...item, count: 1}]
       })
+
+      this.state.totalCount += 1;
     } else {
       this.setState({
         ...this.state,
@@ -42,7 +44,6 @@ class Store {
       })
     }
 
-    this.state.totalCount += 1;
     this.state.totalPrice += item.price;
   }
 
@@ -52,6 +53,8 @@ class Store {
         ...this.state,
         basket: this.state.basket.filter(el => el.code !== item.code)
       })
+
+      this.state.totalCount -= 1;
     } else {
       this.setState({
         ...this.state,
@@ -64,7 +67,6 @@ class Store {
       })
     }
 
-    this.state.totalCount -= 1;
     this.state.totalPrice -= item.price;
   };
 }
