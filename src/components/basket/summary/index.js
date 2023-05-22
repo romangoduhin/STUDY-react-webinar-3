@@ -8,8 +8,6 @@ import Price from "../../price";
 function Summary({totalPrice}) {
   const cn = bem('Summary');
 
-  if(!totalPrice) return;
-
   return (
     <div className={cn()}>
       <span className={cn('text')}>Итого</span>

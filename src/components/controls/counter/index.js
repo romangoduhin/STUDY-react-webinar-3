@@ -9,7 +9,7 @@ import Price from "../../price";
 function Counter({totalCount, totalPrice}) {
   const cn = bem('Counter');
 
-  const text = (!(totalCount && totalPrice))
+  const text = (!(totalCount))
     ? "пусто"
     : `${totalCount} ${plural(totalCount, {one: 'товар', few: 'товара', many: 'товаров'})} / `
 
@@ -18,7 +18,7 @@ function Counter({totalCount, totalPrice}) {
       <span>В корзине: </span>
       <span className={cn('text', {weight: 'bold'})}>{text}</span>
       <span className={cn('text', {weight: 'bold'})}>
-        {totalPrice ? <Price amount={totalPrice} currency={RUBLE_CODE}/> : ""}
+        {totalCount ? <Price amount={totalPrice} currency={RUBLE_CODE}/> : ""}
       </span>
     </div>
   )
