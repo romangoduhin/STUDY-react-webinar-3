@@ -7,8 +7,6 @@ import {numberFormat} from "../../utils";
 function ProductInfo({product, onAdd}) {
   const cn = bem('ProductInfo');
 
-  if (!product) return <div>Loading</div>
-
   const year = new Date(product.dateCreate).getFullYear()
 
   const callbacks = {
