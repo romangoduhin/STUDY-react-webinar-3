@@ -1,9 +1,12 @@
-import React from 'react';
-import { useMemo } from 'react';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {getArrayByRange} from "../utils";
 import {DOTS} from "../constants";
+import {LanguageContext} from "../contexts";
+import rus from '../locales/rus.locale.json';
+import eng from '../locales/eng.locale.json';
 
-export function usePagination ({total, limit, currentPage}) {
+
+export function usePagination({total, limit, currentPage}) {
   const totalPageCount = Math.ceil(total / limit);
 
   const range = useMemo(() => {
@@ -22,7 +25,7 @@ export function usePagination ({total, limit, currentPage}) {
     }
 
     if (currentPage === totalPageCount || currentPage === totalPageCount - 1) {
-      let rightRange = getArrayByRange(totalPageCount - 3 , totalPageCount);
+      let rightRange = getArrayByRange(totalPageCount - 3, totalPageCount);
       return [1, DOTS, ...rightRange];
     }
 
@@ -33,4 +36,27 @@ export function usePagination ({total, limit, currentPage}) {
   }, [total, limit, currentPage]);
 
   return range;
+}
+
+export function useLanguage() {
+  const {language, setLanguage} = useContext(LanguageContext)
+  const [translation, setTranslation] = useState(null)
+
+  function switchLanguage() {
+    setLanguage(prevState => prevState === "rus" ? "eng" : "rus")
+  }
+
+  function t(key) {
+    if (translation) {
+      return translation[key]
+    }
+  }
+
+  useEffect(() => {
+    const json = language === "rus" ? rus : eng
+
+    setTranslation(json)
+  }, [language]);
+
+  return {language, t, switchLanguage}
 }

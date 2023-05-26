@@ -5,8 +5,11 @@ import {numberFormat} from "../../utils";
 import {cn as bem} from "@bem-react/classname";
 import './style.css';
 import {Link} from "react-router-dom";
+import {useLanguage} from "../../hooks";
 
 function ItemBasket(props) {
+  const {t} = useLanguage()
+
   const cn = bem('ItemBasket');
 
   const callbacks = {
@@ -20,9 +23,9 @@ function ItemBasket(props) {
       </div>
       <div className={cn('right')}>
         <div className={cn('cell')}>{numberFormat(props.item.price)} ₽</div>
-        <div className={cn('cell')}>{numberFormat(props.item.amount || 0)} шт</div>
+        <div className={cn('cell')}>{`${numberFormat(props.item.amount || 0)} ${t('Pieces')}`}</div>
         <div className={cn('cell')}>
-          <button onClick={callbacks.onRemove}>Удалить</button>
+          <button onClick={callbacks.onRemove}>{t('Delete')}</button>
         </div>
       </div>
     </div>

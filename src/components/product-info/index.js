@@ -3,9 +3,14 @@ import './style.css';
 import {cn as bem} from "@bem-react/classname";
 import PropTypes from "prop-types";
 import {numberFormat} from "../../utils";
+import {useLanguage} from "../../hooks";
 
 function ProductInfo({product, onAdd}) {
+  const {t} = useLanguage()
+
   const cn = bem('ProductInfo');
+
+  if (!product) return <div>Loading...</div>
 
   const year = new Date(product.dateCreate).getFullYear()
 
@@ -17,24 +22,24 @@ function ProductInfo({product, onAdd}) {
     <div className={cn()}>
       <p className={cn('text')}>{product.description}</p>
       <p className={cn('text')}>
-        Страна производитель: <span className={cn('text', {weight: "bold"})}>
+        {t("Manufacturer country")}: <span className={cn('text', {weight: "bold"})}>
         {product.madeIn.title} ({product.madeIn.code})
       </span>
       </p>
       <p className={cn('text')}>
-        Категория: <span className={cn('text', {weight: "bold"})}>
+        {t("Category")}: <span className={cn('text', {weight: "bold"})}>
         {product.category.title}
       </span>
       </p>
       <p className={cn('text')}>
-        Год выпуска: <span className={cn('text', {weight: "bold"})}>
+        {t("Year of issue")}: <span className={cn('text', {weight: "bold"})}>
         {year}
       </span>
       </p>
       <p className={cn('price')}>
-        Цена: {numberFormat(product.price)} ₽
+        {t("Price")}: {numberFormat(product.price)} ₽
       </p>
-      <button className={cn('button')} onClick={callbacks.onAdd}>Добавить</button>
+      <button className={cn('button')} onClick={callbacks.onAdd}>{t("Add")}</button>
     </div>
   );
 }
