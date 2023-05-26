@@ -33,3 +33,14 @@ export function codeGenerator(start = 0) {
 export function numberFormat(value, locale = 'ru-RU', options = {}) {
   return new Intl.NumberFormat(locale, options).format(value);
 }
+
+export function getArrayByRange (start, end) {
+  const length = end - start + 1;
+  return [...Array(length).keys()].map(value => value + start);
+}
+
+export function isArrayEmpty (arr) {
+  if (!Array.isArray(arr)) return false;
+
+  return arr.length === 0
+}
