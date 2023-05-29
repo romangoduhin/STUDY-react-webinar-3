@@ -6,6 +6,8 @@ import useSelector from "../../store/use-selector";
 import Head from "../../components/head";
 import BasketTool from "../../components/basket-tool";
 import ProductInfo from "../../components/product-info";
+import HeaderLayout from "../../components/header-layout";
+import Navigation from "../../components/navigation";
 
 function ProductPage() {
   const {id} = useParams();
@@ -33,7 +35,10 @@ function ProductPage() {
   return (
     <PageLayout>
       <Head title={select.product?.title}/>
-      <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum}/>
+      <HeaderLayout>
+        <Navigation/>
+        <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum}/>
+      </HeaderLayout>
       <ProductInfo product={select.product} onAdd={callbacks.addToBasket}/>
     </PageLayout>
   );

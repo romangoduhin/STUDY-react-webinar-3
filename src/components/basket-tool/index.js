@@ -4,7 +4,6 @@ import {cn as bem} from '@bem-react/classname';
 import {numberFormat, plural} from "../../utils";
 import './style.css';
 import {useLanguage} from "../../hooks";
-import Navigation from "../navigation";
 
 function BasketTool({sum, amount, onOpen}) {
   const {t} = useLanguage()
@@ -13,10 +12,8 @@ function BasketTool({sum, amount, onOpen}) {
 
   return (
     <div className={cn()}>
-      <Navigation/>
-      <div>
-        <span className={cn('label')}>{t("In the basket")}:</span>
-        <span className={cn('total')}>
+      <span className={cn('label')}>{t("In the basket")}:</span>
+      <span className={cn('total')}>
         {amount
           ? `${amount} ${plural(amount, {
             one: t("One product"),
@@ -26,8 +23,7 @@ function BasketTool({sum, amount, onOpen}) {
           : t("Empty")
         }
       </span>
-        <button onClick={onOpen}>{t("Go to")}</button>
-      </div>
+      <button onClick={onOpen}>{t("Go to")}</button>
     </div>
   );
 }

@@ -8,6 +8,8 @@ import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
 import Pagination from "../../components/paginaton";
 import {useLanguage} from "../../hooks";
+import Navigation from "../../components/navigation";
+import HeaderLayout from "../../components/header-layout";
 
 const PAGE_SIZE = 10;
 
@@ -49,7 +51,10 @@ function Main() {
   return (
     <PageLayout>
       <Head title={t("Shop")}/>
-      <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum}/>
+      <HeaderLayout>
+        <Navigation/>
+        <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum}/>
+      </HeaderLayout>
       <List list={select.list} renderItem={renders.item}/>
       <Pagination total={select.total} limit={PAGE_SIZE} currentPage={currentPage} onChangePage={onChangePage}/>
     </PageLayout>
