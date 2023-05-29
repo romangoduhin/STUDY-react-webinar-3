@@ -27,8 +27,6 @@ function ProductPage() {
   }
 
   useEffect(() => {
-    callbacks.closeModal()
-
     store.actions.product.load(id);
   }, [id]);
 
