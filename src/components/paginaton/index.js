@@ -1,13 +1,12 @@
 import PropTypes from "prop-types";
 import './style.css';
-import {usePagination} from "../../hooks";
-import {isArrayEmpty} from "../../utils";
+import {getPaginationRange, isArrayEmpty} from "../../utils";
 import {DOTS, DOTS_UNICODE} from "../../constants";
 import {cn as bem} from "@bem-react/classname";
 import {memo} from "react";
 
 function Pagination({total, limit, currentPage, onChangePage}) {
-  const range = usePagination({total, limit, currentPage});
+  const range = getPaginationRange({total, limit, currentPage});
 
   const cn = bem('Pagination');
 
