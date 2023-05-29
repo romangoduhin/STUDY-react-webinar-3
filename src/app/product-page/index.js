@@ -30,7 +30,7 @@ function ProductPage() {
     callbacks.closeModal()
 
     store.actions.product.load(id);
-  }, []);
+  }, [id]);
 
   return (
     <PageLayout>
