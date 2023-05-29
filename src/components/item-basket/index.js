@@ -1,5 +1,4 @@
 import {memo} from 'react';
-import propTypes from 'prop-types';
 import PropTypes from 'prop-types';
 import {numberFormat} from "../../utils";
 import {cn as bem} from "@bem-react/classname";
@@ -19,7 +18,7 @@ function ItemBasket(props) {
   return (
     <div className={cn()}>
       <div className={cn('title')}>
-        <Link to={`/product/${props.item._id}`}
+        <Link to={props.redirectTo}
               onClick={props.onRedirect}
               className={cn('link')}
         >
@@ -44,11 +43,15 @@ ItemBasket.propTypes = {
     price: PropTypes.number,
     amount: PropTypes.number
   }).isRequired,
-  onRemove: propTypes.func,
+  redirectTo: PropTypes.string.isRequired,
+  onRemove: PropTypes.func,
+  onRedirect: PropTypes.func,
 }
 
 ItemBasket.defaultProps = {
   onRemove: () => {
+  },
+  onRedirect: () => {
   },
 }
 

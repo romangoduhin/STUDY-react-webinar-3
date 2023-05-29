@@ -45,7 +45,7 @@ function ProductInfo({product, onAdd}) {
 }
 
 ProductInfo.propTypes = {
-  detail: PropTypes.shape({
+  product: PropTypes.shape({
     _id: PropTypes.string,
     title: PropTypes.string,
     price: PropTypes.number,
@@ -54,7 +54,7 @@ ProductInfo.propTypes = {
     dateCreate: PropTypes.string,
     madeIn: PropTypes.object,
     category: PropTypes.object,
-  }).isRequired,
+  }),
   onAdd: PropTypes.func.isRequired
 }
 

@@ -34,7 +34,7 @@ function Main() {
 
   const renders = {
     item: useCallback((item) => {
-      return <Item item={item} onAdd={callbacks.addToBasket}/>
+      return <Item item={item} redirectTo={`/product/${item._id}`} onAdd={callbacks.addToBasket}/>
     }, [callbacks.addToBasket]),
   };
 
