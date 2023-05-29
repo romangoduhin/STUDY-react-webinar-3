@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {cn as bem} from '@bem-react/classname';
 import {numberFormat, plural} from "../../utils";
 import './style.css';
-import {Link} from "react-router-dom";
 import {useLanguage} from "../../hooks";
+import Navigation from "../navigation";
 
 function BasketTool({sum, amount, onOpen}) {
   const {t} = useLanguage()
@@ -13,8 +13,7 @@ function BasketTool({sum, amount, onOpen}) {
 
   return (
     <div className={cn()}>
-      <Link className={cn('link')} to="/">{t("Home")}</Link>
-
+      <Navigation/>
       <div>
         <span className={cn('label')}>{t("In the basket")}:</span>
         <span className={cn('total')}>
@@ -40,8 +39,6 @@ BasketTool.propTypes = {
 };
 
 BasketTool.defaultProps = {
-  onOpen: () => {
-  },
   sum: 0,
   amount: 0
 }
