@@ -1,36 +1,37 @@
 import {memo, useCallback} from "react";
+import useSelector from "../../hooks/use-selector";
+import {useNavigate} from "react-router-dom";
+import SideLayout from "../../components/side-layout";
+import LoginButton from "../../components/login-button";
 import useStore from "../../hooks/use-store";
-import useTranslate from "../../hooks/use-translate";
+import LoginUsername from "../../components/login-username";
 import useInit from "../../hooks/use-init";
 
 function LoginPanel() {
-  const {t} = useTranslate();
   const navigate = useNavigate();
-  const location = useLocation();
   const store = useStore();
 
-  useInit(() => {
-    if (token && !fields)
-      store.actions.user.load();
-  }, [fields, token]);
+  const token = localStorage.getItem('token')
+
+  const select = useSelector(state => ({
+    userInfo: state.user.userInfo,
+  }));
 
   const callbacks = {
-    // Открыть страницу входа
-    onLogin: useCallback(() => {
-      navigate('/login', {state: {from: location}})
-    }, []),
-
-    // Разлогиниться
-    onLogout: useCallback(() => store.actions.user.logout(), [store])
+    navigateToLogin: () => navigate('/login'),
+    onSignOut: useCallback(() => store.actions.user.unAuthorize(), [store]),
   }
 
+  useInit(() => {
+    if (token && !select.userInfo)
+      store.actions.user.getUserInfo();
+  }, [select, token]);
+  
   return (
-    <LoginTool
-      action={token ? callbacks.onLogout : callbacks.onLogin}
-      name={fields?.profile?.name ? fields.profile.name : fields?.username}
-      link={'/profile'}
-      t={t}
-    />
+    <SideLayout padding="medium" side="end">
+      <LoginUsername username={select.userInfo?.username}/>
+      <LoginButton token={token} onSignIn={callbacks.navigateToLogin} onSignOut={callbacks.onSignOut}/>
+    </SideLayout>
   );
 }
 

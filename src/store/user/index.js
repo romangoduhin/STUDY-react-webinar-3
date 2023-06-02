@@ -5,7 +5,7 @@ class UserState extends StoreModule {
   initState() {
     return {
       userInfo: null,
-      waiting: false
+      waiting: true
     }
   }
 
@@ -57,7 +57,7 @@ class UserState extends StoreModule {
         }
       });
 
-      if (response.result) {
+      if (response.status === 200) {
         this.setState({
           ...this.getState(),
           userInfo: null,
@@ -70,6 +70,43 @@ class UserState extends StoreModule {
       this.setState({
         ...this.getState(),
       }, 'Ошибка удаления данных пользователя из АПИ');
+    }
+  }
+
+  async getUserInfo() {
+    console.log("GETTTTTT")
+    const token = localStorage.getItem('token')
+
+    this.setState({
+      ...this.getState(),
+      waiting: true
+    }, 'Получение данных пользователя');
+
+    try {
+      const response = await fetch(`/api/v1/users/self`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Token': `${token}`
+        }
+      });
+
+      const json = await response.json();
+      const userInfo = json.result
+
+      if (userInfo) {
+
+        this.setState({
+          ...this.getState(),
+          userInfo: userInfo,
+          waiting: false
+        }, 'Загружены данные пользователя из АПИ');
+      }
+    } catch (err) {
+      this.setState({
+        userInfo: null,
+        waiting: false
+      }, 'Ошибка получения данных пользователя из АПИ');
     }
   }
 }
