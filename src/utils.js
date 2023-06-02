@@ -80,3 +80,4 @@ export function getCategoriesTree(categories) {
 
   return categoriesTreeWithLevels;
 }
+
