@@ -15,6 +15,7 @@ function Main() {
 
   useInit(() => {
     store.actions.catalog.initParams();
+    store.actions.categories.load();
   }, [], true);
 
   const {t} = useTranslate();
@@ -24,7 +25,7 @@ function Main() {
       <Head title={t('title')}>
         <LocaleSelect/>
       </Head>
-      <Navigation />
+      <Navigation/>
       <CatalogFilter/>
       <CatalogList/>
     </PageLayout>
