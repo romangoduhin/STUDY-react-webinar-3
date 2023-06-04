@@ -5,14 +5,23 @@ import Basket from "./basket";
 import Article from "./article";
 import Login from "./login";
 import Profile from "./profile";
+import useInit from "../hooks/use-init";
+import useStore from "../hooks/use-store";
 
-/**
- * Приложение
- * @returns {React.ReactElement}
- */
 function App() {
+  const store = useStore();
 
   const activeModal = useSelector(state => state.modals.name);
+
+  const select = useSelector(state => ({
+    token: state.user.token,
+  }));
+
+  useInit(() => {
+    if (select.token) {
+      store.actions.user.getUserInfo();
+    }
+  }, [], true);
 
   return (
     <>

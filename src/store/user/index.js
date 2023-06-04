@@ -6,7 +6,7 @@ class UserState extends StoreModule {
     return {
       token: localStorage.getItem('token'),
       userInfo: null,
-      waiting: true
+      waiting: false
     }
   }
 
