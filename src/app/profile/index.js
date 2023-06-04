@@ -7,9 +7,11 @@ import LoginPanel from "../../containers/login-panel";
 import useTranslate from "../../hooks/use-translate";
 import useSelector from "../../hooks/use-selector";
 import ProfileInfo from "../../components/profile-info";
-import withAuthorization from "../../hoc/withAuthorization";
+import useAuthorization from "../../hooks/use-authorization";
 
 function Profile() {
+  useAuthorization()
+  
   const {t} = useTranslate();
 
   const select = useSelector(state => ({
@@ -28,4 +30,4 @@ function Profile() {
   );
 }
 
-export default memo(withAuthorization(Profile));
+export default memo(Profile);
