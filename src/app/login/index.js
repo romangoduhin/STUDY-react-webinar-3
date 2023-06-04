@@ -7,11 +7,16 @@ import LocaleSelect from "../../containers/locale-select";
 import LoginPanel from "../../containers/login-panel";
 import LoginForm from "../../components/login-form";
 import useStore from "../../hooks/use-store";
+import useSelector from "../../hooks/use-selector";
 
 function Login() {
   const {t} = useTranslate();
 
   const store = useStore();
+
+  const select = useSelector(state => ({
+    errorMessage: state.user.errorMessage,
+  }));
 
   const callbacks = {
     onAuthorize: useCallback((data) => store.actions.user.authorize(data), [store])
@@ -24,7 +29,7 @@ function Login() {
         <LocaleSelect/>
       </Head>
       <Navigation/>
-      <LoginForm onSubmit={callbacks.onAuthorize}/>
+      <LoginForm errorMessage={select.errorMessage} onSubmit={callbacks.onAuthorize}/>
     </PageLayout>
   );
 }

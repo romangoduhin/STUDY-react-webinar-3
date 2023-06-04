@@ -2,8 +2,10 @@ import {memo, useState} from "react";
 import {cn as bem} from "@bem-react/classname";
 import './style.css';
 import useTranslate from "../../hooks/use-translate";
+import PropTypes from "prop-types";
+import ErrorText from "../error-text";
 
-function LoginForm({onSubmit}) {
+function LoginForm({errorMessage, onSubmit}) {
   const cn = bem('LoginForm');
   const {t} = useTranslate();
 
@@ -31,10 +33,19 @@ function LoginForm({onSubmit}) {
           {t('password')}
           <input className={cn('form-input')} onChange={callbacks.onChange} type="password" id="password"/>
         </label>
+
+        {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+
         <button type="submit" className={cn('button')}>{t('enter')}</button>
       </form>
     </div>
   )
 }
+
+
+LoginForm.propTypes = {
+  errorMessage: PropTypes.string,
+  onSubmit: PropTypes.func,
+};
 
 export default memo(LoginForm);

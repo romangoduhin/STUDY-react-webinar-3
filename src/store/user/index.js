@@ -6,7 +6,8 @@ class UserState extends StoreModule {
     return {
       token: localStorage.getItem('token'),
       userInfo: null,
-      waiting: false
+      waiting: false,
+      errorMessage: null,
     }
   }
 
@@ -24,31 +25,45 @@ class UserState extends StoreModule {
           'Content-Type': 'application/json',
         }
       });
-
       const json = await response.json();
-      const userInfo = json.result.user
-      const token = json.result.token
 
-      if (userInfo && token) {
+      if (response.ok) {
+        const userInfo = json.result.user
+        const token = json.result.token
+
+        if (userInfo && token) {
+          this.setState({
+            ...this.getState(),
+            token: token,
+            userInfo: userInfo,
+            waiting: false,
+            errorMessage: null,
+          }, 'Загружены данные пользователя из АПИ');
+
+          localStorage.setItem('token', token);
+        }
+      }
+
+      if (!response.ok) {
         this.setState({
           ...this.getState(),
-          token: token,
-          userInfo: userInfo,
+          token: null,
+          userInfo: null,
+          errorMessage: json.error.data.issues[0].message,
           waiting: false
-        }, 'Загружены данные пользователя из АПИ');
-
-        localStorage.setItem('token', token);
+        });
       }
     } catch (err) {
       this.setState({
+        token: null,
         userInfo: null,
+        errorMessage: 'Ошибка получения данных пользователя из АПИ',
         waiting: false
       }, 'Ошибка получения данных пользователя из АПИ');
     }
   }
 
   async unAuthorize() {
-    //@todo updteit
     const token = localStorage.getItem('token')
 
     try {
@@ -77,7 +92,6 @@ class UserState extends StoreModule {
   }
 
   async getUserInfo() {
-    //@todo updteit
     const token = localStorage.getItem('token')
 
     this.setState({
@@ -95,19 +109,31 @@ class UserState extends StoreModule {
       });
 
       const json = await response.json();
-      const userInfo = json.result
 
-      if (userInfo) {
-
+      if (response.ok) {
+        const userInfo = json.result
         this.setState({
           ...this.getState(),
           userInfo: userInfo,
-          waiting: false
+          waiting: false,
+          errorMessage: null,
         }, 'Загружены данные пользователя из АПИ');
+      }
+
+      if (!response.ok) {
+        this.setState({
+          ...this.getState(),
+          token: null,
+          userInfo: null,
+          errorMessage: json.error.data.issues[0].message,
+          waiting: false
+        });
       }
     } catch (err) {
       this.setState({
+        token: null,
         userInfo: null,
+        errorMessage: 'Ошибка получения данных пользователя из АПИ',
         waiting: false
       }, 'Ошибка получения данных пользователя из АПИ');
     }
