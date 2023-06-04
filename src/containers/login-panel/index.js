@@ -13,10 +13,9 @@ function LoginPanel() {
   const store = useStore();
   const cn = bem('LoginPanel');
 
-  const token = localStorage.getItem('token')
-
   const select = useSelector(state => ({
     userInfo: state.user.userInfo,
+    token: state.user.token,
   }));
 
   const callbacks = {
@@ -25,14 +24,14 @@ function LoginPanel() {
   }
 
   useInit(() => {
-    if (token && !select.userInfo)
+    if (select.token && !select.userInfo)
       store.actions.user.getUserInfo();
-  }, [select, token]);
+  }, [select, select.token]);
 
   return (
     <div className={cn()}>
       <LoginUsername username={select.userInfo?.username}/>
-      <LoginButton token={token} onSignIn={callbacks.navigateToLogin} onSignOut={callbacks.onSignOut}/>
+      <LoginButton token={select.token} onSignIn={callbacks.navigateToLogin} onSignOut={callbacks.onSignOut}/>
     </div>
   );
 }

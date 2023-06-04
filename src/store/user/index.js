@@ -4,6 +4,7 @@ class UserState extends StoreModule {
 
   initState() {
     return {
+      token: localStorage.getItem('token'),
       userInfo: null,
       waiting: true
     }
@@ -31,6 +32,7 @@ class UserState extends StoreModule {
       if (userInfo && token) {
         this.setState({
           ...this.getState(),
+          token: token,
           userInfo: userInfo,
           waiting: false
         }, 'Загружены данные пользователя из АПИ');
@@ -46,6 +48,7 @@ class UserState extends StoreModule {
   }
 
   async unAuthorize() {
+    //@todo updteit
     const token = localStorage.getItem('token')
 
     try {
@@ -74,7 +77,7 @@ class UserState extends StoreModule {
   }
 
   async getUserInfo() {
-    console.log("GETTTTTT")
+    //@todo updteit
     const token = localStorage.getItem('token')
 
     this.setState({

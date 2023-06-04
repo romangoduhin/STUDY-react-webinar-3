@@ -14,14 +14,15 @@ function Profile() {
 
   const select = useSelector(state => ({
     userInfo: state.user.userInfo,
+    token: state.user.token,
     waiting: state.user.waiting,
   }));
 
   const navigate = useNavigate();
-
+  
   useEffect(() => {
-    if (!select.userInfo && !select.waiting) navigate('/login');
-  }, [select.userInfo])
+    if (!select.token && !select.waiting) navigate('/login');
+  }, [select.token])
 
   return (
     <PageLayout>
