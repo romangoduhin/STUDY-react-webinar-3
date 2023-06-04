@@ -25,11 +25,11 @@ function LoginForm({onSubmit}) {
       <form className={cn('form')} onSubmit={callbacks.onSubmit}>
         <label className={cn('form-item')}>
           {t('login')}
-          <input onChange={callbacks.onChange} type="text" id="login"/>
+          <input className={cn('form-input')} onChange={callbacks.onChange} type="text" id="login"/>
         </label>
         <label className={cn('form-item')}>
           {t('password')}
-          <input onChange={callbacks.onChange} type="password" id="password"/>
+          <input className={cn('form-input')} onChange={callbacks.onChange} type="password" id="password"/>
         </label>
         <button type="submit" className={cn('button')}>{t('enter')}</button>
       </form>
