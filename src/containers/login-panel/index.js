@@ -1,15 +1,17 @@
 import {memo, useCallback} from "react";
 import useSelector from "../../hooks/use-selector";
 import {useNavigate} from "react-router-dom";
-import SideLayout from "../../components/side-layout";
 import LoginButton from "../../components/login-button";
 import useStore from "../../hooks/use-store";
 import LoginUsername from "../../components/login-username";
 import useInit from "../../hooks/use-init";
+import {cn as bem} from "@bem-react/classname";
+import './style.css';
 
 function LoginPanel() {
   const navigate = useNavigate();
   const store = useStore();
+  const cn = bem('LoginPanel');
 
   const token = localStorage.getItem('token')
 
@@ -26,12 +28,12 @@ function LoginPanel() {
     if (token && !select.userInfo)
       store.actions.user.getUserInfo();
   }, [select, token]);
-  
+
   return (
-    <SideLayout padding="medium" side="end">
+    <div className={cn()}>
       <LoginUsername username={select.userInfo?.username}/>
       <LoginButton token={token} onSignIn={callbacks.navigateToLogin} onSignOut={callbacks.onSignOut}/>
-    </SideLayout>
+    </div>
   );
 }
 
