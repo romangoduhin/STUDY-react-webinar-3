@@ -5,8 +5,8 @@ import Basket from "./basket";
 import Article from "./article";
 import Login from "./login";
 import Profile from "./profile";
-import useInit from "../hooks/use-init";
 import useStore from "../hooks/use-store";
+import {useEffect} from "react";
 
 function App() {
   const store = useStore();
@@ -17,11 +17,11 @@ function App() {
     token: state.user.token,
   }));
 
-  useInit(() => {
+  useEffect(() => {
     if (select.token) {
-      store.actions.user.getUserInfo();
+      store.actions.profile.getUserInfo();
     }
-  }, [], true);
+  }, [select.token]);
 
   return (
     <>

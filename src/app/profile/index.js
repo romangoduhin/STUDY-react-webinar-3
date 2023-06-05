@@ -11,11 +11,11 @@ import useAuthorization from "../../hooks/use-authorization";
 
 function Profile() {
   useAuthorization()
-  
+
   const {t} = useTranslate();
 
   const select = useSelector(state => ({
-    userInfo: state.user.userInfo,
+    userInfo: state.profile.userInfo,
   }));
 
   return (

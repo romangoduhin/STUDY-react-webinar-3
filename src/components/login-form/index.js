@@ -42,7 +42,6 @@ function LoginForm({errorMessage, onSubmit}) {
   )
 }
 
-
 LoginForm.propTypes = {
   errorMessage: PropTypes.string,
   onSubmit: PropTypes.func,

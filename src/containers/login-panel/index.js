@@ -13,13 +13,16 @@ function LoginPanel() {
   const cn = bem('LoginPanel');
 
   const select = useSelector(state => ({
-    userInfo: state.user.userInfo,
+    userInfo: state.profile.userInfo,
     token: state.user.token,
   }));
 
   const callbacks = {
     navigateToLogin: () => navigate('/login'),
-    onSignOut: useCallback(() => store.actions.user.unAuthorize(), [store]),
+    onSignOut: useCallback(() => {
+      store.actions.user.unAuthorize()
+      store.actions.profile.clearUserInfo()
+    }, [store]),
   }
 
   return (
