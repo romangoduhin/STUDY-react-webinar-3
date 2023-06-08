@@ -14,6 +14,7 @@ import {useDispatch, useSelector as useSelectorRedux} from 'react-redux';
 import shallowequal from "shallowequal";
 import articleActions from '../../store-redux/article/actions';
 import commentsActions from '../../store-redux/comments/actions';
+import Comments from "../../containers/comments";
 
 function Article() {
   const {t} = useTranslate();
@@ -30,15 +31,12 @@ function Article() {
   const select = useSelectorRedux(state => ({
     article: state.article.data,
     articleWaiting: state.article.waiting,
-    comments: state.comments.data,
     commentsWaiting: state.comments.waiting,
   }), shallowequal);
 
   const callbacks = {
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
   }
-
-  console.log(select.comments)
 
   return (
     <PageLayout>
@@ -49,6 +47,9 @@ function Article() {
       <Navigation/>
       <Spinner active={select.articleWaiting}>
         <ArticleCard article={select.article} onAdd={callbacks.addToBasket} t={t}/>
+      </Spinner>
+      <Spinner active={select.commentsWaiting}>
+        <Comments/>
       </Spinner>
     </PageLayout>
   );
