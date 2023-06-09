@@ -2,15 +2,26 @@ import {memo} from "react";
 import './style.css';
 import {cn as bem} from "@bem-react/classname";
 import PropTypes from "prop-types";
+import useTranslate from "../../hooks/use-translate";
+import formatDate from "../../utils/format-date";
 
 function Comment({data}) {
+  const {t, lang} = useTranslate();
+
   const cn = bem('Comment');
-  
+
   const paddingLeft = {paddingLeft: `calc(${data.level} * 30px )`}
 
   return (
     <div style={paddingLeft} className={cn()}>
-      {data.text}
+      <div className={cn('header')}>
+        <span className={cn('username')}>{data?.author?.username}</span>
+        <span className={cn('dateCreate')}>{formatDate(data?.dateCreate, lang)}</span>
+      </div>
+      <div className={cn('text')}>
+        {data.text}
+      </div>
+      <button className={cn('answerButton')}>{t("article.answer")}</button>
     </div>
   )
 }

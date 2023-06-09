@@ -1,6 +1,53 @@
 .Comment {
     box-sizing: border-box;
     width: 100%;
-    height: 100px;
-    background-color: blue;
+    min-height: 64px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.Comment-header {
+    width: 100%;
+    height: 14px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.Comment-username {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+}
+
+.Comment-dateCreate {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: #666666;
+}
+
+.Comment-text {
+    height: auto;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.Comment-answerButton {
+    padding: 0;
+    width: fit-content;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: #0087E9;
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
 }

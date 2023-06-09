@@ -13,7 +13,9 @@ function CommentsList({comments, count}) {
   return (
     <div className={cn()}>
       <h1 className={cn('title')}>{t("article.commentaries")} ({count})</h1>
-      {comments.map(comment => (<Comment key={comment._id} data={comment}/>))}
+      <div className={cn('list')}>
+        {comments.map(comment => (<Comment key={comment._id} data={comment}/>))}
+      </div>
     </div>
   )
 }
