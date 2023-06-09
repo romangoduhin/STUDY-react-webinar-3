@@ -6,7 +6,7 @@ import useTranslate from "../../hooks/use-translate";
 import formatDate from "../../utils/format-date";
 import CommentForm from "../comment-form";
 
-function Comment({data, isAnswer, onSend, onAnswer, onCancel}) {
+function Comment({data, username, isAnswer, isOwnComment, onSend, onAnswer, onCancel}) {
   const {t, lang} = useTranslate();
 
   const cn = bem('Comment');
@@ -16,7 +16,7 @@ function Comment({data, isAnswer, onSend, onAnswer, onCancel}) {
   return (
     <div style={paddingLeft} className={cn()}>
       <div className={cn('header')}>
-        <span className={cn('username')}>{data?.author?.username}</span>
+        <span className={cn('username', {ownComment: isOwnComment})}>{username}</span>
         <span className={cn('dateCreate')}>{formatDate(data?.dateCreate, lang)}</span>
       </div>
       <div className={cn('text')}>
@@ -24,7 +24,7 @@ function Comment({data, isAnswer, onSend, onAnswer, onCancel}) {
       </div>
       <button onClick={() => onAnswer(data._id)} className={cn('answerButton')}>{t("commentaries.answer")}</button>
 
-      {isAnswer && <CommentForm onSubmit={onSend} isAnswer={isAnswer} onCancel={onCancel}/>}
+      {isAnswer && <CommentForm id={data._id} onSubmit={onSend} isAnswer={isAnswer} onCancel={onCancel}/>}
     </div>
   )
 }
@@ -43,7 +43,9 @@ Comment.propTypes = {
       _id: PropTypes.string,
     })
   }).isRequired,
-  isAnswer: PropTypes.bool,
+  username: PropTypes.string.isRequired,
+  isAnswer: PropTypes.bool.isRequired,
+  isOwnComment: PropTypes.bool.isRequired,
   onSend: PropTypes.func.isRequired,
   onAnswer: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,

@@ -1,6 +1,5 @@
 const initialState = {
   data: [],
-  count: 0,
   waiting: false
 }
 
@@ -12,9 +11,17 @@ function reducer(state = initialState, action) {
     case "comments/load-success":
       return {...state, data: action.payload.data.items, count: action.payload.data.count, waiting: false};
 
-    case "article/load-error":
+    case "comments/load-error":
       return {...state, data: [], count: 0, waiting: false};
 
+    case "comments/send-start":
+      return {...state, waiting: true};
+
+    case "comments/send-success":
+      return {...state, data: [...state.data, action.payload.data], waiting: false};
+
+    case "comments/send-error":
+      return {...state, waiting: false};
     default:
       return state;
   }

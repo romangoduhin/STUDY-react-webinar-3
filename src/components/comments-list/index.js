@@ -5,29 +5,40 @@ import PropTypes from "prop-types";
 import Comment from "../comment"
 import useTranslate from "../../hooks/use-translate";
 import CommentForm from "../comment-form";
+import useSelector from "../../hooks/use-selector";
 
-function CommentsList({comments, commentForm, count, onSend, onAnswer, onCancel}) {
+function CommentsList({articleId, comments, commentForm, onSend, onAnswer, onCancel}) {
   const {t} = useTranslate();
 
   const cn = bem('CommentsList');
 
+  const select = useSelector(state => ({
+    username: state.session.user.username,
+    userId: state.session.user._id,
+  }));
+  
   return (
     <div className={cn()}>
-      <h1 className={cn('title')}>{t("commentaries.title")} ({count})</h1>
+      <h1 className={cn('title')}>{t("commentaries.title")} ({comments.length})</h1>
       <div className={cn('list')}>
         {comments.map(comment => {
           const isCurrentAnswer = commentForm.isAnswer && (commentForm.answerId === comment._id)
 
+          const isOwnComment = comment?.author?._id === select.userId;
+          const username = comment?.author?.username || select.username
+
           return <Comment key={comment._id}
                           data={comment}
+                          username={username}
                           isAnswer={isCurrentAnswer}
+                          isOwnComment={isOwnComment}
                           onSend={onSend}
                           onAnswer={onAnswer}
                           onCancel={onCancel}
           />
         })}
 
-        {!commentForm.isAnswer && <CommentForm onSubmit={onSend} isAnswer={commentForm.isAnswer}/>}
+        {!commentForm.isAnswer && <CommentForm id={articleId} onSubmit={onSend} isAnswer={commentForm.isAnswer}/>}
       </div>
     </div>
   )
@@ -53,10 +64,10 @@ CommentsList.propTypes = {
     isAnswer: PropTypes.bool,
     answerId: PropTypes.string
   }),
-  count: PropTypes.number.isRequired,
   onSend: PropTypes.func.isRequired,
   onAnswer: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  articleId: PropTypes.string,
 };
 
 export default memo(CommentsList);

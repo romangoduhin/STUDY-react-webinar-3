@@ -23,6 +23,13 @@
     line-height: 14px;
 }
 
+.Comment-username {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+}
+
 .Comment-dateCreate {
     font-style: normal;
     font-weight: 400;

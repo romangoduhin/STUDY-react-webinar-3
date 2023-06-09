@@ -4,7 +4,7 @@ import {cn as bem} from "@bem-react/classname";
 import useTranslate from "../../hooks/use-translate";
 import PropTypes from "prop-types";
 
-function CommentForm({id, onSubmit, onCancel, isAnswer}) {
+function CommentForm({onSubmit, onCancel, isAnswer}) {
   const {t} = useTranslate();
 
   const cn = bem('CommentForm');
@@ -12,14 +12,8 @@ function CommentForm({id, onSubmit, onCancel, isAnswer}) {
   const [value, setValue] = useState('');
 
   const callbacks = {
-    onSubmit: useCallback(() => {
-      const type = isAnswer ? "comment" : "article"
-
-      onSubmit(id, value, type)
-    }, [value, isAnswer]),
-
-    onChange: useCallback((event) => {
-      setValue(event.currentTarget.value);
+    onChange: useCallback((value) => {
+      setValue(value);
     }, []),
   }
 
@@ -41,7 +35,7 @@ function CommentForm({id, onSubmit, onCancel, isAnswer}) {
                 onChange={callbacks.onChange}
       />
       <div className={cn('buttons')}>
-        <button className={cn('button')} onClick={callbacks.onSubmit}>{t("commentaries.send")}</button>
+        <button className={cn('button')} onClick={() => onSubmit(value)}>{t("commentaries.send")}</button>
         {isAnswer &&
           <button className={cn('button')} onClick={onCancel}>{t("commentaries.cancel")}</button>
         }
@@ -51,7 +45,6 @@ function CommentForm({id, onSubmit, onCancel, isAnswer}) {
 }
 
 CommentForm.propTypes = {
-  id: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func,
   isAnswer: PropTypes.bool
