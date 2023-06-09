@@ -9,14 +9,15 @@ function Comments() {
   const select = useSelectorRedux(state => ({
     comments: state.comments.data,
     count: state.comments.count,
+    articleId: state.article.data._id
   }), shallowequal);
 
   const options = {
     updatedComments: useMemo(() => (
-      treeToList(listToTree(select.comments), (item, level) => (
+      treeToList(listToTree(select.comments, select.articleId), (item, level) => (
         {...item, level}))), [select.comments]),
   };
-
+  
   return (
     <CommentsList comments={options.updatedComments} count={select.count}/>
   );
