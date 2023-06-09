@@ -16,6 +16,8 @@
     "other": "товара"
   },
   "article.add": "Добавить",
+  "article.commentaries": "Комментарии",
+  "article.answer": "Ответить",
   "filter.reset": "Сбросить",
   "auth.title": "Вход",
   "auth.login": "Логин",

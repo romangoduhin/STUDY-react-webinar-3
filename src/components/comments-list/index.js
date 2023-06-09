@@ -3,16 +3,16 @@ import './style.css';
 import {cn as bem} from "@bem-react/classname";
 import PropTypes from "prop-types";
 import Comment from "../comment"
+import useTranslate from "../../hooks/use-translate";
 
 function CommentsList({comments, count}) {
-  // const {t} = useTranslate();
-  //@todo add translate
+  const {t} = useTranslate();
 
   const cn = bem('CommentsList');
 
   return (
     <div className={cn()}>
-      <h1 className={cn('title')}>Комментарии ({count})</h1>
+      <h1 className={cn('title')}>{t("article.commentaries")} ({count})</h1>
       {comments.map(comment => (<Comment key={comment._id} data={comment}/>))}
     </div>
   )
