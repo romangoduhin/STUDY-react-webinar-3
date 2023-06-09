@@ -4,9 +4,9 @@ import {cn as bem} from "@bem-react/classname";
 import PropTypes from "prop-types";
 import Comment from "../comment"
 import useTranslate from "../../hooks/use-translate";
-import CommentForm from "../comment-from";
+import CommentForm from "../comment-form";
 
-function CommentsList({comments, count}) {
+function CommentsList({comments, commentForm, count, onSend, onAnswer, onCancel}) {
   const {t} = useTranslate();
 
   const cn = bem('CommentsList');
@@ -15,9 +15,19 @@ function CommentsList({comments, count}) {
     <div className={cn()}>
       <h1 className={cn('title')}>{t("commentaries.title")} ({count})</h1>
       <div className={cn('list')}>
-        {comments.map(comment => (<Comment key={comment._id} data={comment}/>))}
+        {comments.map(comment => {
+          const isCurrentAnswer = commentForm.isAnswer && (commentForm.answerId === comment._id)
 
-        <CommentForm onSubmit={alert}/>
+          return <Comment key={comment._id}
+                          data={comment}
+                          isAnswer={isCurrentAnswer}
+                          onSend={onSend}
+                          onAnswer={onAnswer}
+                          onCancel={onCancel}
+          />
+        })}
+
+        {!commentForm.isAnswer && <CommentForm onSubmit={onSend} isAnswer={commentForm.isAnswer}/>}
       </div>
     </div>
   )
@@ -39,7 +49,14 @@ CommentsList.propTypes = {
       })
     })
   })).isRequired,
-  count: PropTypes.number.isRequired
+  commentForm: PropTypes.shape({
+    isAnswer: PropTypes.bool,
+    answerId: PropTypes.string
+  }),
+  count: PropTypes.number.isRequired,
+  onSend: PropTypes.func.isRequired,
+  onAnswer: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 export default memo(CommentsList);

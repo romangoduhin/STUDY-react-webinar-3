@@ -4,8 +4,9 @@ import {cn as bem} from "@bem-react/classname";
 import PropTypes from "prop-types";
 import useTranslate from "../../hooks/use-translate";
 import formatDate from "../../utils/format-date";
+import CommentForm from "../comment-form";
 
-function Comment({data}) {
+function Comment({data, isAnswer, onSend, onAnswer, onCancel}) {
   const {t, lang} = useTranslate();
 
   const cn = bem('Comment');
@@ -21,7 +22,9 @@ function Comment({data}) {
       <div className={cn('text')}>
         {data.text}
       </div>
-      <button className={cn('answerButton')}>{t("commentaries.answer")}</button>
+      <button onClick={() => onAnswer(data._id)} className={cn('answerButton')}>{t("commentaries.answer")}</button>
+
+      {isAnswer && <CommentForm onSubmit={onSend} isAnswer={isAnswer} onCancel={onCancel}/>}
     </div>
   )
 }
@@ -39,7 +42,11 @@ Comment.propTypes = {
     parent: PropTypes.shape({
       _id: PropTypes.string,
     })
-  }).isRequired
+  }).isRequired,
+  isAnswer: PropTypes.bool,
+  onSend: PropTypes.func.isRequired,
+  onAnswer: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
 };
 
 export default memo(Comment);

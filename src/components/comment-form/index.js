@@ -4,7 +4,7 @@ import {cn as bem} from "@bem-react/classname";
 import useTranslate from "../../hooks/use-translate";
 import PropTypes from "prop-types";
 
-function CommentForm({onSubmit}) {
+function CommentForm({onSubmit, onCancel, isAnswer}) {
   const {t} = useTranslate();
 
   const cn = bem('CommentForm');
@@ -15,17 +15,17 @@ function CommentForm({onSubmit}) {
     onChange: useCallback((value) => {
       setValue(value);
     }, []),
-
-    onSubmit: useCallback((event) => {
-      event.preventDefault();
-      onSubmit()
-    }, [])
   }
 
   return (
     <div className={cn()}>
       <div className={cn('header')}>
-        <span className={cn('title')}>{t("commentaries.newComment")}</span>
+        <span className={cn('title')}>
+          {isAnswer
+            ? t("commentaries.newAnswer")
+            : t("commentaries.newComment")
+          }
+        </span>
       </div>
       <textarea className={cn('textarea')}
                 name="comment"
@@ -34,13 +34,26 @@ function CommentForm({onSubmit}) {
                 value={value}
                 onChange={callbacks.onChange}
       />
-      <button className={cn('sendButton')}>{t("commentaries.send")}</button>
+      <div className={cn('buttons')}>
+        <button className={cn('button')} onClick={() => onSubmit(value)}>{t("commentaries.send")}</button>
+        {isAnswer &&
+          <button className={cn('button')} onClick={onCancel}>{t("commentaries.cancel")}</button>
+        }
+      </div>
     </div>
   )
 }
 
 CommentForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func,
+  isAnswer: PropTypes.bool
+};
+
+CommentForm.defaultProps = {
+  onCancel: () => {
+  },
+  isAnswer: false
 };
 
 export default memo(CommentForm);
