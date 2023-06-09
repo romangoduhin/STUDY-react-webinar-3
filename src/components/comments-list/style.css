@@ -9,7 +9,7 @@
 
 .CommentsList-title {
     margin-top: 0;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     height: 28px;
     font-style: normal;
     font-weight: 400;
@@ -20,6 +20,7 @@
 .CommentsList-list {
     display: flex;
     flex-direction: column;
+    min-height: 18px;
     gap: 30px;
 }
 

@@ -1,8 +1,10 @@
-import {memo, useCallback, useState} from "react";
+import {memo, useCallback, useEffect, useState} from "react";
 import './style.css';
 import {cn as bem} from "@bem-react/classname";
 import useTranslate from "../../hooks/use-translate";
 import PropTypes from "prop-types";
+import useSelector from "../../hooks/use-selector";
+import CommentForbidden from "../comment-forbidden";
 
 function CommentForm({id, onSubmit, onCancel, isAnswer}) {
   const {t} = useTranslate();
@@ -10,6 +12,11 @@ function CommentForm({id, onSubmit, onCancel, isAnswer}) {
   const cn = bem('CommentForm');
 
   const [value, setValue] = useState('');
+  const [isCommentForbidden, setIsCommentForbidden] = useState(true);
+
+  const select = useSelector(state => ({
+    exists: state.session.exists,
+  }));
 
   const callbacks = {
     onSubmit: useCallback(() => {
@@ -22,6 +29,16 @@ function CommentForm({id, onSubmit, onCancel, isAnswer}) {
       setValue(event.currentTarget.value);
     }, []),
   }
+
+  useEffect(() => {
+    if (!select.exists) {
+      setIsCommentForbidden(true)
+    } else {
+      setIsCommentForbidden(false)
+    }
+  }, [select.exists, select.waiting]);
+
+  if (isCommentForbidden) return <CommentForbidden isAnswer={isAnswer} onCancel={onCancel}/>
 
   return (
     <div className={cn()}>
@@ -51,7 +68,7 @@ function CommentForm({id, onSubmit, onCancel, isAnswer}) {
 }
 
 CommentForm.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func,
   isAnswer: PropTypes.bool

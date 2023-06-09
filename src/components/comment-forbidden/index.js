@@ -1,59 +1,39 @@
-import {memo, useCallback, useState} from "react";
+import {memo, useCallback} from "react";
 import './style.css';
 import {cn as bem} from "@bem-react/classname";
 import useTranslate from "../../hooks/use-translate";
 import PropTypes from "prop-types";
+import {useLocation, useNavigate} from "react-router-dom";
 
-function CommentForm({onSubmit, onCancel, isAnswer}) {
+function CommentForbidden({isAnswer, onCancel}) {
   const {t} = useTranslate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const cn = bem('CommentForm');
-
-  const [value, setValue] = useState('');
+  const cn = bem('CommentForbidden');
 
   const callbacks = {
-    onChange: useCallback((value) => {
-      setValue(value);
-    }, []),
+    onSignIn: useCallback(() => {
+      navigate("/login", {state: {back: location.pathname}});
+    }, [location]),
   }
 
   return (
-    <div className={cn()}>
-      <div className={cn('header')}>
-        <span className={cn('title')}>
-          {isAnswer
-            ? t("commentaries.newAnswer")
-            : t("commentaries.newComment")
-          }
-        </span>
-      </div>
-      <textarea className={cn('textarea')}
-                name="comment"
-                id="comment"
-                placeholder={t("commentaries.commentPlaceholder")}
-                value={value}
-                onChange={callbacks.onChange}
-      />
-      <div className={cn('buttons')}>
-        <button className={cn('button')} onClick={() => onSubmit(value)}>{t("commentaries.send")}</button>
-        {isAnswer &&
-          <button className={cn('button')} onClick={onCancel}>{t("commentaries.cancel")}</button>
-        }
-      </div>
-    </div>
+    <p className={cn()}>
+      <span onClick={callbacks.onSignIn} className={cn("signInButton")}>{t("commentaries.signIn")}</span>
+      <span className={cn("text")}>, {
+        isAnswer
+          ? t("commentaries.forbiddenAnswer")
+          : t("commentaries.forbiddenComment")
+      } </span>
+      {isAnswer && <span onClick={onCancel} className={cn("cancelButton")}>{t("commentaries.cancel")}</span>}
+    </p>
   )
 }
 
-CommentForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  onCancel: PropTypes.func,
-  isAnswer: PropTypes.bool
+CommentForbidden.propTypes = {
+  isAnswer: PropTypes.bool.isRequired,
+  onCancel: PropTypes.func.isRequired
 };
 
-CommentForm.defaultProps = {
-  onCancel: () => {
-  },
-  isAnswer: false
-};
-
-export default memo(CommentForm);
+export default memo(CommentForbidden);

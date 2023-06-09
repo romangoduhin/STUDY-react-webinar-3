@@ -15,14 +15,16 @@ function Comment({data, username, isAnswer, isOwnComment, onSend, onAnswer, onCa
 
   return (
     <div style={paddingLeft} className={cn()}>
-      <div className={cn('header')}>
-        <span className={cn('username', {ownComment: isOwnComment})}>{username}</span>
-        <span className={cn('dateCreate')}>{formatDate(data?.dateCreate, lang)}</span>
+      <div className={cn('form')}>
+        <div className={cn('header')}>
+          <span className={cn('username', {ownComment: isOwnComment})}>{username}</span>
+          <span className={cn('dateCreate')}>{formatDate(data?.dateCreate, lang)}</span>
+        </div>
+        <div className={cn('text')}>
+          {data.text}
+        </div>
+        <button onClick={() => onAnswer(data._id)} className={cn('answerButton')}>{t("commentaries.answer")}</button>
       </div>
-      <div className={cn('text')}>
-        {data.text}
-      </div>
-      <button onClick={() => onAnswer(data._id)} className={cn('answerButton')}>{t("commentaries.answer")}</button>
 
       {isAnswer && <CommentForm id={data._id} onSubmit={onSend} isAnswer={isAnswer} onCancel={onCancel}/>}
     </div>
