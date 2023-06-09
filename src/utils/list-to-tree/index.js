@@ -2,9 +2,10 @@
  * Преобразование списка в иерархию
  * @param list {Array} Список объектов с отношением на родителя
  * @param [key] {String} Свойство с первичным ключом
+ * @param [rootElementId] {String} Свойство id рутового элемента
  * @returns {Array} Корневые узлы
  */
-export default function listToTree(list, rootCommentId = '', key = '_id') {
+export default function listToTree(list, rootElementId = '', key = '_id') {
   let trees = {};
   let roots = {};
   for (const item of list) {
@@ -19,7 +20,7 @@ export default function listToTree(list, rootCommentId = '', key = '_id') {
       trees[item[key]] = Object.assign(trees[item[key]], item);
     }
     // Если элемент имеет родителя, то добавляем его в подчиненные родителя и элемент не рутовый(главный)
-    if (item.parent?._id && item.parent?._id !== rootCommentId) {
+    if (item.parent?._id && item.parent?._id !== rootElementId) {
       // Если родителя ещё нет в индексе, то индекс создаётся, ведь _id родителя известен
       if (!trees[item.parent._id]) trees[item.parent[key]] = {children: []};
       // Добавления в подчиненные родителя
