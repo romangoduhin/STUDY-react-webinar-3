@@ -16,8 +16,11 @@
     "other": "товара"
   },
   "article.add": "Добавить",
-  "article.commentaries": "Комментарии",
-  "article.answer": "Ответить",
+  "commentaries.title": "Комментарии",
+  "commentaries.answer": "Ответить",
+  "commentaries.newComment": "Новый комментарий",
+  "commentaries.commentPlaceholder": "Текст",
+  "commentaries.send": "Отправить",
   "filter.reset": "Сбросить",
   "auth.title": "Вход",
   "auth.login": "Логин",

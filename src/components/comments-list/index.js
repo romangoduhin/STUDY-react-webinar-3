@@ -4,6 +4,7 @@ import {cn as bem} from "@bem-react/classname";
 import PropTypes from "prop-types";
 import Comment from "../comment"
 import useTranslate from "../../hooks/use-translate";
+import CommentForm from "../comment-from";
 
 function CommentsList({comments, count}) {
   const {t} = useTranslate();
@@ -12,9 +13,11 @@ function CommentsList({comments, count}) {
 
   return (
     <div className={cn()}>
-      <h1 className={cn('title')}>{t("article.commentaries")} ({count})</h1>
+      <h1 className={cn('title')}>{t("commentaries.title")} ({count})</h1>
       <div className={cn('list')}>
         {comments.map(comment => (<Comment key={comment._id} data={comment}/>))}
+
+        <CommentForm onSubmit={alert}/>
       </div>
     </div>
   )

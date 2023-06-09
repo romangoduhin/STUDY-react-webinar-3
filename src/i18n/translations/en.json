@@ -14,8 +14,11 @@
     "other": "articles"
   },
   "article.add": "Add",
-  "article.commentaries": "Commentaries",
-  "article.answer": "Answer",
+  "commentaries.title": "Commentaries",
+  "commentaries.answer": "Answer",
+  "commentaries.newComment": "New comment",
+  "commentaries.commentPlaceholder": "Text",
+  "commentaries.send": "Send",
   "filter.reset": "Reset",
   "auth.title": "Sign In",
   "auth.login": "Login",

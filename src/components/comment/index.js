@@ -21,7 +21,7 @@ function Comment({data}) {
       <div className={cn('text')}>
         {data.text}
       </div>
-      <button className={cn('answerButton')}>{t("article.answer")}</button>
+      <button className={cn('answerButton')}>{t("commentaries.answer")}</button>
     </div>
   )
 }
