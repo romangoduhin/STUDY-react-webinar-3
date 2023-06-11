@@ -53,7 +53,6 @@ function CommentForm({id, onSubmit, onCancel, isAnswer}) {
       <textarea className={cn('textarea')}
                 name="comment"
                 id="comment"
-                placeholder={t("commentaries.commentPlaceholder")}
                 value={value}
                 onChange={callbacks.onChange}
       />
