@@ -5,10 +5,13 @@ import PropTypes from "prop-types";
 import formatDate from "../../utils/format-date";
 import CommentForm from "../../containers/comment-form";
 
+const MAX_LEVEL = 6
+const PADDING_SIZE = 30
+
 function Comment({t, lang, data, username, isAnswer, isOwnComment, onSend, onAnswer, onCancel}) {
   const cn = bem('Comment');
 
-  const paddingLeft = {paddingLeft: `calc(${data.level} * 30px )`}
+  const paddingLeft = {paddingLeft: `calc(${data.level < MAX_LEVEL ? data.level : MAX_LEVEL} * ${PADDING_SIZE}px )`}
 
   return (
     <div style={paddingLeft} className={cn()}>
