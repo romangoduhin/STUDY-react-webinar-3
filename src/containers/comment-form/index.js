@@ -17,6 +17,8 @@ function CommentForm({id, onSubmit, onCancel, isAnswer}) {
   const [value, setValue] = useState('');
   const [isCommentForbidden, setIsCommentForbidden] = useState(true);
 
+  const isCommentEmpty = !value.trim()
+
   const select = useSelector(state => ({
     exists: state.session.exists,
   }));
@@ -69,10 +71,13 @@ function CommentForm({id, onSubmit, onCancel, isAnswer}) {
                 onChange={callbacks.onChange}
       />
       <div className={cn('buttons')}>
-        <button className={cn('button')} onClick={callbacks.onSubmit}>{t("commentaries.send")}</button>
-        {isAnswer &&
-          <button className={cn('button')} onClick={onCancel}>{t("commentaries.cancel")}</button>
-        }
+        <button disabled={isCommentEmpty}
+                className={cn('button')}
+                onClick={callbacks.onSubmit}>
+          {t("commentaries.send")}
+        </button>
+
+        {isAnswer && <button className={cn('button')} onClick={onCancel}>{t("commentaries.cancel")}</button>}
       </div>
     </div>
   )

@@ -21,9 +21,13 @@ function Comments() {
   }), shallowequal);
 
   const options = {
-    updatedComments: useMemo(() => (
-      treeToList(listToTree(select.comments, select.articleId), (item, level) => (
-        {...item, level}))), [select.comments]),
+    updatedComments: useMemo(() => {
+      const commentsList = treeToList(listToTree(select.comments, select.articleId), (item, level) => (
+        {...item, level}))
+
+      const filteredComments = commentsList.filter(comment => comment.text.trim())
+      return filteredComments
+    }, [select.comments]),
   };
 
   const callbacks = {
