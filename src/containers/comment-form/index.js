@@ -55,7 +55,7 @@ function CommentForm({id, onSubmit, onCancel, isAnswer}) {
     />)
 
   return (
-    <div className={cn()}>
+    <div className={cn('', {isAnswer: isAnswer})}>
       <div className={cn('header')}>
         <span className={cn('title')}>
           {isAnswer

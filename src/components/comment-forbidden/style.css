@@ -9,6 +9,10 @@
     line-height: 18px;
 }
 
+.CommentForbidden_isAnswer {
+    padding-left: 30px;
+}
+
 .CommentForbidden-signInButton {
     color: #0087E9;
     text-decoration-line: underline;

@@ -8,12 +8,8 @@
     gap: 10px;
 }
 
-.CommentForm-header {
-    width: 100%;
-    height: 14px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+.CommentForm_isAnswer {
+    padding-left: 30px;
 }
 
 .CommentForm-title {
