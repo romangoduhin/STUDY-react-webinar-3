@@ -4,10 +4,13 @@ import {cn as bem} from "@bem-react/classname";
 import useTranslate from "../../hooks/use-translate";
 import PropTypes from "prop-types";
 import useSelector from "../../hooks/use-selector";
-import CommentForbidden from "../comment-forbidden";
+import CommentForbidden from "../../components/comment-forbidden";
+import {useLocation, useNavigate} from "react-router-dom";
 
 function CommentForm({id, onSubmit, onCancel, isAnswer}) {
   const {t} = useTranslate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const cn = bem('CommentForm');
 
@@ -28,6 +31,10 @@ function CommentForm({id, onSubmit, onCancel, isAnswer}) {
     onChange: useCallback((event) => {
       setValue(event.currentTarget.value);
     }, []),
+
+    onSignIn: useCallback(() => {
+      navigate("/login", {state: {back: location.pathname}});
+    }, [location]),
   }
 
   useEffect(() => {
@@ -38,7 +45,12 @@ function CommentForm({id, onSubmit, onCancel, isAnswer}) {
     }
   }, [select.exists, select.waiting]);
 
-  if (isCommentForbidden) return <CommentForbidden isAnswer={isAnswer} onCancel={onCancel}/>
+  if (isCommentForbidden) return (
+    <CommentForbidden t={t}
+                      isAnswer={isAnswer}
+                      onSignIn={callbacks.onSignIn}
+                      onCancel={onCancel}
+    />)
 
   return (
     <div className={cn()}>

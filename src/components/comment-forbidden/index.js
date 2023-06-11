@@ -1,26 +1,14 @@
-import {memo, useCallback} from "react";
+import {memo} from "react";
 import './style.css';
 import {cn as bem} from "@bem-react/classname";
-import useTranslate from "../../hooks/use-translate";
 import PropTypes from "prop-types";
-import {useLocation, useNavigate} from "react-router-dom";
 
-function CommentForbidden({isAnswer, onCancel}) {
-  const {t} = useTranslate();
-  const navigate = useNavigate();
-  const location = useLocation();
-
+function CommentForbidden({t, isAnswer, onSignIn, onCancel}) {
   const cn = bem('CommentForbidden');
-
-  const callbacks = {
-    onSignIn: useCallback(() => {
-      navigate("/login", {state: {back: location.pathname}});
-    }, [location]),
-  }
 
   return (
     <p className={cn()}>
-      <span onClick={callbacks.onSignIn} className={cn("signInButton")}>{t("commentaries.signIn")}</span>
+      <span onClick={onSignIn} className={cn("signInButton")}>{t("commentaries.signIn")}</span>
       <span className={cn("text")}>, {
         isAnswer
           ? t("commentaries.forbiddenAnswer")
@@ -32,7 +20,9 @@ function CommentForbidden({isAnswer, onCancel}) {
 }
 
 CommentForbidden.propTypes = {
+  t: PropTypes.func.isRequired,
   isAnswer: PropTypes.bool.isRequired,
+  onSignIn: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired
 };
 

@@ -2,13 +2,10 @@ import {memo} from "react";
 import './style.css';
 import {cn as bem} from "@bem-react/classname";
 import PropTypes from "prop-types";
-import useTranslate from "../../hooks/use-translate";
 import formatDate from "../../utils/format-date";
-import CommentForm from "../comment-form";
+import CommentForm from "../../containers/comment-form";
 
-function Comment({data, username, isAnswer, isOwnComment, onSend, onAnswer, onCancel}) {
-  const {t, lang} = useTranslate();
-
+function Comment({t, lang, data, username, isAnswer, isOwnComment, onSend, onAnswer, onCancel}) {
   const cn = bem('Comment');
 
   const paddingLeft = {paddingLeft: `calc(${data.level} * 30px )`}
@@ -32,6 +29,8 @@ function Comment({data, username, isAnswer, isOwnComment, onSend, onAnswer, onCa
 }
 
 Comment.propTypes = {
+  t: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
   data: PropTypes.shape({
     _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     text: PropTypes.string,

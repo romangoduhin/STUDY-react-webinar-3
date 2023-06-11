@@ -2,13 +2,13 @@ import {memo} from "react";
 import './style.css';
 import {cn as bem} from "@bem-react/classname";
 import PropTypes from "prop-types";
-import Comment from "../comment"
+import Comment from "../../components/comment"
 import useTranslate from "../../hooks/use-translate";
 import CommentForm from "../comment-form";
 import useSelector from "../../hooks/use-selector";
 
 function CommentsList({articleId, comments, commentForm, onSend, onAnswer, onCancel}) {
-  const {t} = useTranslate();
+  const {t, lang} = useTranslate();
 
   const cn = bem('CommentsList');
 
@@ -16,7 +16,7 @@ function CommentsList({articleId, comments, commentForm, onSend, onAnswer, onCan
     username: state.session.user.username,
     userId: state.session.user._id,
   }));
-  
+
   return (
     <div className={cn()}>
       <h1 className={cn('title')}>{t("commentaries.title")} ({comments.length})</h1>
@@ -27,14 +27,17 @@ function CommentsList({articleId, comments, commentForm, onSend, onAnswer, onCan
           const isOwnComment = comment?.author?._id === select.userId;
           const username = comment?.author?.username || select.username
 
-          return <Comment key={comment._id}
-                          data={comment}
-                          username={username}
-                          isAnswer={isCurrentAnswer}
-                          isOwnComment={isOwnComment}
-                          onSend={onSend}
-                          onAnswer={onAnswer}
-                          onCancel={onCancel}
+          return <Comment
+            t={t}
+            lang={lang}
+            key={comment._id}
+            data={comment}
+            username={username}
+            isAnswer={isCurrentAnswer}
+            isOwnComment={isOwnComment}
+            onSend={onSend}
+            onAnswer={onAnswer}
+            onCancel={onCancel}
           />
         })}
 

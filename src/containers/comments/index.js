@@ -1,5 +1,5 @@
 import {memo, useCallback, useMemo, useState} from "react";
-import CommentsList from "../../components/comments-list";
+import CommentsList from "../comments-list";
 import {useSelector as useSelectorRedux} from "react-redux/es/hooks/useSelector";
 import shallowequal from "shallowequal";
 import treeToList from "../../utils/tree-to-list";
@@ -19,7 +19,7 @@ function Comments() {
     comments: state.comments.data,
     articleId: state.article.data._id
   }), shallowequal);
-  
+
   const options = {
     updatedComments: useMemo(() => (
       treeToList(listToTree(select.comments, select.articleId), (item, level) => (
