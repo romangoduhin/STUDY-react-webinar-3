@@ -7,7 +7,7 @@ function CommentForbidden({t, isAnswer, onSignIn, onCancel}) {
   const cn = bem('CommentForbidden');
 
   return (
-    <p className={cn('', {isAnswer: isAnswer})}>
+    <p className={cn()}>
       <span onClick={onSignIn} className={cn("signInButton")}>{t("commentaries.signIn")}</span>
       <span className={cn("text")}>, {
         isAnswer

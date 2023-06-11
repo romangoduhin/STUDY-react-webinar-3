@@ -17,15 +17,24 @@ function CommentsList({articleId, comments, commentForm, onSend, onAnswer, onCan
     userId: state.session.user._id,
   }));
 
+  const commentsCount = comments.filter(comment => comment.type !== "form").length
+
   return (
     <div className={cn()}>
-      <h1 className={cn('title')}>{t("commentaries.title")} ({comments.length})</h1>
+      <h1 className={cn('title')}>{t("commentaries.title")} ({commentsCount})</h1>
       <div className={cn('list')}>
         {comments.map(comment => {
-          const isCurrentAnswer = commentForm.isAnswer && (commentForm.answerId === comment._id)
-
           const isOwnComment = comment?.author?._id === select.userId;
           const username = comment?.author?.username || select.username
+          
+          if (comment.type === "form") {
+            return <CommentForm key={comment.type}
+                                id={comment.parent._id}
+                                level={comment.level}
+                                onSubmit={onSend}
+                                isAnswer={commentForm.isAnswer}
+                                onCancel={onCancel}/>
+          }
 
           return <Comment
             t={t}
@@ -33,7 +42,6 @@ function CommentsList({articleId, comments, commentForm, onSend, onAnswer, onCan
             key={comment._id}
             data={comment}
             username={username}
-            isAnswer={isCurrentAnswer}
             isOwnComment={isOwnComment}
             onSend={onSend}
             onAnswer={onAnswer}
@@ -41,7 +49,8 @@ function CommentsList({articleId, comments, commentForm, onSend, onAnswer, onCan
           />
         })}
 
-        {!commentForm.isAnswer && <CommentForm id={articleId} onSubmit={onSend} isAnswer={commentForm.isAnswer}/>}
+        {!commentForm.isAnswer &&
+          <CommentForm id={articleId} level={0} onSubmit={onSend} isAnswer={commentForm.isAnswer}/>}
       </div>
     </div>
   )

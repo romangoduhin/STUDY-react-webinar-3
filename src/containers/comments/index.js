@@ -7,12 +7,15 @@ import listToTree from "../../utils/list-to-tree";
 import commentsActions from "../../store-redux/comments/actions";
 import {useDispatch} from "react-redux";
 
+export const MAX_LEVEL = 6
+export const PADDING_SIZE = 30
+
 function Comments() {
   const dispatch = useDispatch();
 
   const [commentForm, setCommentForm] = useState({
     isAnswer: false,
-    answerId: ''
+    answerObj: null
   });
 
   const select = useSelectorRedux(state => ({
@@ -22,12 +25,13 @@ function Comments() {
 
   const options = {
     updatedComments: useMemo(() => {
-      const commentsList = treeToList(listToTree(select.comments, select.articleId), (item, level) => (
+      const comments = commentForm.answerObj ? [...select.comments, commentForm.answerObj] : select.comments
+
+      const commentsList = treeToList(listToTree(comments, select.articleId), (item, level) => (
         {...item, level}))
 
-      const filteredComments = commentsList.filter(comment => comment.text.trim())
-      return filteredComments
-    }, [select.comments]),
+      return commentsList
+    }, [select.comments, commentForm]),
   };
 
   const callbacks = {
@@ -38,14 +42,20 @@ function Comments() {
     onAnswer: useCallback((answerId) => {
       setCommentForm({
         isAnswer: true,
-        answerId: answerId
+        answerObj: {
+          type: 'form',
+          parent: {
+            _id: answerId,
+            _type: 'comment'
+          }
+        }
       })
     }, []),
 
     onCancel: useCallback(() => {
       setCommentForm({
         isAnswer: false,
-        answerId: ''
+        answerObj: null
       })
     }, []),
   }

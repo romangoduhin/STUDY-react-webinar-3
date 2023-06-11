@@ -3,12 +3,9 @@ import './style.css';
 import {cn as bem} from "@bem-react/classname";
 import PropTypes from "prop-types";
 import formatDate from "../../utils/format-date";
-import CommentForm from "../../containers/comment-form";
+import {MAX_LEVEL, PADDING_SIZE} from "../../containers/comments";
 
-const MAX_LEVEL = 6
-const PADDING_SIZE = 30
-
-function Comment({t, lang, data, username, isAnswer, isOwnComment, onSend, onAnswer, onCancel}) {
+function Comment({t, lang, data, username, isOwnComment, onAnswer}) {
   const cn = bem('Comment');
 
   const paddingLeft = {paddingLeft: `calc(${data.level < MAX_LEVEL ? data.level : MAX_LEVEL} * ${PADDING_SIZE}px )`}
@@ -23,10 +20,9 @@ function Comment({t, lang, data, username, isAnswer, isOwnComment, onSend, onAns
         <div className={cn('text')}>
           {data.text}
         </div>
-        <button onClick={() => onAnswer(data._id)} className={cn('answerButton')}>{t("commentaries.answer")}</button>
+        <button onClick={() => onAnswer(data._id)}
+                className={cn('answerButton')}>{t("commentaries.answer")}</button>
       </div>
-
-      {isAnswer && <CommentForm id={data._id} onSubmit={onSend} isAnswer={isAnswer} onCancel={onCancel}/>}
     </div>
   )
 }
@@ -48,11 +44,8 @@ Comment.propTypes = {
     })
   }).isRequired,
   username: PropTypes.string.isRequired,
-  isAnswer: PropTypes.bool.isRequired,
   isOwnComment: PropTypes.bool.isRequired,
-  onSend: PropTypes.func.isRequired,
   onAnswer: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
 };
 
 export default memo(Comment);

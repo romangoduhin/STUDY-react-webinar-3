@@ -6,8 +6,9 @@ import PropTypes from "prop-types";
 import useSelector from "../../hooks/use-selector";
 import CommentForbidden from "../../components/comment-forbidden";
 import {useLocation, useNavigate} from "react-router-dom";
+import {MAX_LEVEL, PADDING_SIZE} from "../comments";
 
-function CommentForm({id, onSubmit, onCancel, isAnswer}) {
+function CommentForm({id, level, onSubmit, onCancel, isAnswer}) {
   const {t} = useTranslate();
   const navigate = useNavigate();
   const location = useLocation();
@@ -18,6 +19,8 @@ function CommentForm({id, onSubmit, onCancel, isAnswer}) {
   const [isCommentForbidden, setIsCommentForbidden] = useState(true);
 
   const isCommentEmpty = !value.trim()
+
+  const paddingLeft = {paddingLeft: `calc(${level < MAX_LEVEL ? level : MAX_LEVEL} * ${PADDING_SIZE}px )`}
 
   const select = useSelector(state => ({
     exists: state.session.exists,
@@ -47,44 +50,41 @@ function CommentForm({id, onSubmit, onCancel, isAnswer}) {
     }
   }, [select.exists, select.waiting]);
 
-  if (isCommentForbidden) return (
-    <CommentForbidden t={t}
-                      isAnswer={isAnswer}
-                      onSignIn={callbacks.onSignIn}
-                      onCancel={onCancel}
-    />)
-
   return (
-    <div className={cn('', {isAnswer: isAnswer})}>
-      <div className={cn('header')}>
-        <span className={cn('title')}>
-          {isAnswer
-            ? t("commentaries.newAnswer")
-            : t("commentaries.newComment")
-          }
-        </span>
-      </div>
-      <textarea className={cn('textarea')}
-                name="comment"
-                id="comment"
-                value={value}
-                onChange={callbacks.onChange}
-      />
-      <div className={cn('buttons')}>
-        <button disabled={isCommentEmpty}
-                className={cn('button')}
-                onClick={callbacks.onSubmit}>
-          {t("commentaries.send")}
-        </button>
+    <div style={paddingLeft}>
+      {isCommentForbidden
+        ? <CommentForbidden t={t}
+                            isAnswer={isAnswer}
+                            onSignIn={callbacks.onSignIn}
+                            onCancel={onCancel}
+        />
+        : <div className={cn()}>
+          <div className={cn('header')}>
+            <span className={cn('title')}>{isAnswer ? t("commentaries.newAnswer") : t("commentaries.newComment")}</span>
+          </div>
+          <textarea className={cn('textarea')}
+                    name="comment"
+                    id="comment"
+                    value={value}
+                    onChange={callbacks.onChange}
+          />
+          <div className={cn('buttons')}>
+            <button disabled={isCommentEmpty}
+                    className={cn('button')}
+                    onClick={callbacks.onSubmit}>
+              {t("commentaries.send")}
+            </button>
 
-        {isAnswer && <button className={cn('button')} onClick={onCancel}>{t("commentaries.cancel")}</button>}
-      </div>
+            {isAnswer && <button className={cn('button')} onClick={onCancel}>{t("commentaries.cancel")}</button>}
+          </div>
+        </div>}
     </div>
   )
 }
 
 CommentForm.propTypes = {
   id: PropTypes.string,
+  level: PropTypes.number.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func,
   isAnswer: PropTypes.bool
